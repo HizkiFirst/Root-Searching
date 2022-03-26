@@ -1,2 +1,184 @@
 # Root-Searching
 Numeric Method Assignment, program to approximate roots of an equations
+
+## Methods inside the program
+<details><summary>Preprocessing Equation</summary>
+<p>
+
+#### Parsing the equation
+
+This function read equation input and turn them into equation data
+```python
+def getInputEquation(equation):
+    mEq = equation
+    ops = ['^','-','+','*','/']
+    seq = []
+    cp = 0
+    i = 0
+    while i < len(mEq):
+        if mEq[i] in ops:
+            if i == 0:
+                seq.append(mEq[i])
+            else:
+                seq.append(mEq[cp:i])
+                seq.append(mEq[i])
+
+            cp = i+1
+
+        i += 1
+    
+    seq.append(mEq[cp:len(mEq)])
+    seq.append('end')
+
+    eq_data = []
+    operation = {
+        'coef': 0,
+        'exp': 0,
+        'const': 0,
+        'base': ''
+    }
+
+    var_names = 'abcdefghijklmnopqrstuvwxyz'
+    i = 0
+    while i < len(seq):
+
+        if seq[i] in ['-','+','end'] and i > 0:
+            if operation['base'] == '':
+                operation['const'] = operation['coef']
+                operation['coef'] = 0
+
+            eq_data.append(operation)
+            operation = {
+                    'coef': 0,
+                    'exp': 0,
+                    'const': 0,
+                    'base': ''
+            }
+
+        if seq[i] in var_names:
+            operation['base'] = seq[i]
+            operation['exp'] = 1
+            operation['coef'] = 1
+        
+
+        elif seq[i] == '-':
+
+            if seq[i+1] in var_names:
+                operation['base'] = seq[i+1]
+                operation['exp'] = 1
+                operation['coef'] = -1
+            else:
+                operation['coef'] = -int(seq[i+1])
+            i += 1
+
+        elif seq[i] == '+':
+
+            if seq[i+1] in var_names:
+                operation['base'] = seq[i+1]
+                operation['exp'] = 1
+                operation['coef'] = 1
+            else:
+                operation['coef'] = int(seq[i+1])
+            i += 1
+
+        elif seq[i] == '*':
+
+            if seq[i+1] in var_names:
+                operation['base'] = seq[i+1]
+                operation['exp'] = 1
+            else:
+                operation['coef'] *= int(seq[i+1])
+            i += 1
+
+        elif seq[i] == '/':
+
+            if seq[i+1] in var_names:
+                operation['base'] = seq[i+1]
+                operation['exp'] = -1
+            else:
+                operation['coef'] /= int(seq[i+1])
+            i += 1
+
+        elif seq[i] == '^':
+            if seq[i-1] in var_names:
+                operation['exp'] = int(seq[i+1])
+            else:
+                if operation['coef'] < 0:
+                    operation['coef'] = -1*(operation['coef']**int(seq[i+1]))
+                else:
+                    operation['coef'] **=int(seq[i+1])
+            i += 1
+
+        elif seq[i] != 'end':
+            operation['coef'] = int(seq[i])
+
+        i += 1
+
+        
+
+    return eq_data
+```
+
+</p>
+</details>
+
+<details><summary>Get Derivative Equation (f'(x))</summary>
+<p>
+  
+#### Find f'(x)
+This function get derivative of the equation, the derivative will be used later to count the gradient (m) in y = mx + c
+
+  The input arguments is the equation data which obtained in the preprocessing equation
+  
+```python
+  def getDerivativeEquation(eq_data):
+
+    derivative_eq_data = []
+    i = 0
+    while i < len(eq_data):
+
+        coef = eq_data[i]['coef']
+        exp = eq_data[i]['exp']
+        const = eq_data[i]['const']
+        base = eq_data[i]['base']
+
+        remove = False
+
+        if exp == 1:
+            const = coef
+            exp = 0 
+            coef = 0
+            base = ''
+        elif const != 0:
+            remove = True
+        else:
+            coef = coef*exp
+            exp -= 1
+            
+
+        if remove == False:
+            operation = {
+                'coef': coef,
+                'exp': exp,
+                'const': const,
+                'base': base
+            }
+            derivative_eq_data.append(operation)
+
+        
+        i += 1
+
+    return derivative_eq_data
+```
+</p>
+</details>
+
+
+
+
+
+
+## License
+MIT
+
+ 
