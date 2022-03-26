@@ -250,6 +250,53 @@ def getNextX(equation,derivative,x):
 </p>
 </details>
 
+<details><summary> Main Function  </summary>
+<p>
+
+### Main Function
+This function arrange above functions into steps to get new x on every iterations
+
+The input arguments takes the equation, initial x, and target of the iterations count
+
+Steps:
+
+1) The function start with parsing the equation
+
+2) After that, it find derivative of the equation
+
+3) In n iterations it begins to obtain new X in order to gain equation value of approaching zero
+
+4) The iteration stops if n iterations are complete or if the value of x has made the equation zero
+
+```python
+def rootSearch4thMethod(equation, x, iteration):
+    
+    eq_data = getInputEquation(equation)
+    d_eq_data = getDerivativeEquation(eq_data)
+    currentX = x
+
+    for i in range(iteration):
+        equation = countEquation(eq_data,currentX)
+        derivative = countDerivative(d_eq_data, currentX)
+        while derivative == 0:
+            if currentX < 0:
+                currentX -= 1
+            else: 
+                currentX += 1
+            derivative = countDerivative(d_eq_data, currentX)
+        currentX = getNextX(equation, derivative, currentX)
+        
+        if equation == 0:
+            break
+        
+    if currentX == 0:
+        currentX = abs(currentX)
+
+    return 
+```
+</p>
+</details>
+
     
 
 
