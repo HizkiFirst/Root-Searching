@@ -206,6 +206,9 @@ def rootSearch4thMethod(equation, x, iteration):
             derivative = countDerivative(d_eq_data, currentX)
         currentX = getNextX(equation, derivative, currentX)
         
+        if equation == 0:
+            break
+        
     if currentX == 0:
         currentX = abs(currentX)
 
@@ -215,7 +218,7 @@ equation_1 = 'x^3-2*x^2-5*x+6'
 equation_2 = 'x^2-2*x-24'
 equation_3 = 'x^3-10^2-25*x+250'
 init_x = -8
-iteration = 100
+iteration = 10
 
 # NIU = 455447
 # 455447 mod 3 = 2, 3rd Equation
