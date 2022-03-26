@@ -174,8 +174,83 @@ This function get derivative of the equation, the derivative will be used later 
 </details>
 
 
+<details><summary> Count Equation </summary>
+<p>
 
+### Calculate equation
 
+This function calculate the equation with equation data and x as the arguments
+
+```python
+def countEquation(eq_data, x):
+    result = 0
+    for i in range(len(eq_data)):
+        coef = eq_data[i]['coef']
+        exp = eq_data[i]['exp']
+        const = eq_data[i]['const']
+        base = eq_data[i]['base']
+
+        if const != 0:
+            result += const
+        else:
+            result += coef*pow(x,exp)
+
+    return result
+```
+</p>
+</details>
+
+<details><summary> Count Derivative  </summary>
+<p>
+
+### Calculate Derivative
+
+This function calculate the derivative equation with derivative equation data and x as the arguments
+
+```python
+def countDerivative(d_eq_data, x):
+    result = 0
+    for i in range(len(d_eq_data)):
+        coef = d_eq_data[i]['coef']
+        exp = d_eq_data[i]['exp']
+        const = d_eq_data[i]['const']
+        base = d_eq_data[i]['base']
+
+        if const != 0:
+            result += const
+        else:
+            result += coef*pow(x,exp)
+
+    return result
+```
+</p>
+</details>
+
+<details><summary> Approach Next Point (New X)  </summary>
+<p>
+
+### Get New X
+Using Linear Regression equation y = mx + c to obtain new initial point (x')
+
+y = the value of the equation
+
+m = the value of derivative
+
+x = the initial point
+
+```python
+def getNextX(equation,derivative,x):
+    y = equation
+    m = derivative
+    c = y - (m*x)
+
+    x_new = -c / m
+    return x_new
+```
+</p>
+</details>
+
+    
 
 
 ## License
